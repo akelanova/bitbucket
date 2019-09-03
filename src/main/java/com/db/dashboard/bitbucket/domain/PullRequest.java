@@ -16,13 +16,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class PullRequest {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
-    @Column
     private String author;
-    @Column
     private String branchName;
-    @Column
     private String buildStatus;
 }

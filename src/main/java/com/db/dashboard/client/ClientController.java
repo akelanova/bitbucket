@@ -1,32 +1,29 @@
 package com.db.dashboard.client;
 
+import com.db.dashboard.bitbucket.domain.PullRequest;
+import com.db.dashboard.bitbucket.domain.dao.PullRequestDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Liubov Ruzanova
  */
 @RestController
 public class ClientController {
-    private Object someJson;
 
-    @PostMapping("/dashboard")
-    public Object getInfo(@RequestBody Object json) {
-        // trigger for update ?
+    @Autowired
+    private PullRequestDao pullRequestDao;
 
-        someJson = json;
-        System.out.println(json);
-        return someJson;
-    }
 
     @GetMapping("/dashboard")
     public Object getDashboard() {
-        //get from DB
-
-
-        return someJson;
+        Iterable<PullRequest> all = pullRequestDao.findAll();
+        return all;
     }
 
 }

@@ -1,10 +1,12 @@
 package com.db.dashboard.bitbucket.dto;
 
 import com.db.dashboard.bitbucket.domain.PullRequest;
-import com.db.dashboard.bitbucket.domain.dao.PullRequestDao;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Liubov Ruzanova
@@ -16,24 +18,23 @@ public class PullRequestDto implements Wrapper<PullRequest, PullRequestDto> {
 
     private long id;
     private String author;
-    private String branchName;
-    private String buildStatus;
+    private SourceDto source;
+//    private String buildStatus;
 
     public static PullRequestDto createStub(){
         PullRequestDto pullRequestDto = new PullRequestDto();
-        pullRequestDto.id = 2;
-        pullRequestDto.author = "Liubov";
-        pullRequestDto.branchName = "feature/jira123";
-        pullRequestDto.buildStatus = "success";
+        pullRequestDto.id = 5;
+        pullRequestDto.author = "Zheka";
+        pullRequestDto.source = new SourceDto("braaanch");
+//        pullRequestDto.buildStatus = "success";
         return pullRequestDto;
     }
-
 
     public PullRequestDto(PullRequest pullRequest){
         this.id = pullRequest.getId();
         this.author = pullRequest.getAuthor();
-        this.branchName = pullRequest.getBranchName();
-        this.buildStatus = pullRequest.getBuildStatus();
+        this.source = new SourceDto(pullRequest.getBranchName());
+//        this.buildStatus = pullRequest.getBuildStatus();
     }
 
 
@@ -47,8 +48,8 @@ public class PullRequestDto implements Wrapper<PullRequest, PullRequestDto> {
         PullRequest request = new PullRequest();
         request.setId(this.id);
         request.setAuthor(this.author);
-        request.setBranchName(this.branchName);
-        request.setBuildStatus(this.buildStatus);
+        request.setBranchName(source.getBranch().getName());
+//        request.setBuildStatus(this.buildStatus);
         return request;
     }
 }
