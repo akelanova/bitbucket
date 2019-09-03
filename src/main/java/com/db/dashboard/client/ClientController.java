@@ -1,14 +1,12 @@
 package com.db.dashboard.client;
 
+import com.db.dashboard.bitbucket.domain.PullRequestList;
 import com.db.dashboard.bitbucket.domain.PullRequest;
 import com.db.dashboard.bitbucket.domain.dao.PullRequestDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 /**
  * @author Liubov Ruzanova
@@ -21,9 +19,12 @@ public class ClientController {
 
 
     @GetMapping("/dashboard")
-    public Object getDashboard() {
+    public @ResponseBody
+    PullRequestList getDashboard() {
         Iterable<PullRequest> all = pullRequestDao.findAll();
-        return all;
+        ArrayList<PullRequest> pullRequests = new ArrayList<>();
+        all.forEach(pullRequests::add);
+        return new PullRequestList(pullRequests);
     }
 
 }
